@@ -15,9 +15,38 @@
   <canvas id="floatCanvas"></canvas>
 
   <!-- ══════════════════════════════════════════
+       PASSWORD SCREEN
+  ══════════════════════════════════════════ -->
+  <div id="passwordScreen" class="screen active">
+    <img src="sakura.gif" class="sakura-overlay sakura-tl" alt="" />
+    <img src="sakura.gif" class="sakura-overlay sakura-br" alt="" />
+    <img src="sparkle_star.gif" class="deco-sparkle sp1" alt="" />
+    <img src="sparkle_star.gif" class="deco-sparkle sp2" alt="" />
+
+    <div class="password-content">
+      <img src="bear_heart.gif" alt="" class="pw-bear" />
+      <h1 class="pw-title">This is a private place<br><span>just for two 🌸</span></h1>
+      <p class="pw-sub">enter the secret word to continue ♡</p>
+
+      <div class="pw-input-wrap">
+        <input type="password" id="pwInput" class="pw-input" placeholder="secret word..."
+          onkeydown="if(event.key==='Enter') checkPassword()" />
+        <button class="pw-btn" onclick="checkPassword()">✦ Enter</button>
+      </div>
+
+      <p class="pw-error hidden" id="pwError">wrong password, try again 🐾</p>
+
+      <div class="pw-chars">
+        <img src="cat_wave.gif"  alt="" class="pw-char" />
+        <img src="cat_heart.gif" alt="" class="pw-char" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
        INTRO SCREEN
   ══════════════════════════════════════════ -->
-  <div id="introScreen" class="screen active">
+  <div id="introScreen" class="screen hidden">
 
     <img src="sakura.gif" class="sakura-overlay sakura-tl" alt="" />
     <img src="sakura.gif" class="sakura-overlay sakura-br" alt="" />

@@ -28,6 +28,120 @@ body {
   color: #4a2035;
 }
 
+/* ══════════════════════════════════════════
+   PASSWORD SCREEN
+══════════════════════════════════════════ */
+#passwordScreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 30% 20%, #ffe0f0 0%, #fdf0f5 40%, #fff5f9 100%);
+  overflow: hidden;
+}
+.password-content {
+  text-align: center;
+  z-index: 10;
+  position: relative;
+  padding: 2rem 1.5rem;
+  animation: fadeUp 0.8s ease both;
+}
+.pw-bear {
+  width: 130px;
+  mix-blend-mode: multiply;
+  animation: bobble 2.5s ease-in-out infinite;
+  margin-bottom: 0.8rem;
+}
+.pw-title {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  color: var(--pink-dark);
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+}
+.pw-title span {
+  font-style: italic;
+  color: var(--pink);
+}
+.pw-sub {
+  font-size: 0.95rem;
+  color: #9c4473;
+  font-weight: 300;
+  margin-bottom: 1.8rem;
+}
+.pw-input-wrap {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+.pw-input {
+  font-family: var(--body);
+  font-size: 1rem;
+  border: 2px solid var(--pink-rose);
+  border-radius: 50px;
+  padding: 0.7rem 1.4rem;
+  width: min(260px, 70vw);
+  background: #fff;
+  color: #4a2035;
+  outline: none;
+  text-align: center;
+  letter-spacing: 0.15em;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.pw-input:focus {
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px #e91e8c18;
+}
+.pw-input.shake {
+  animation: shake 0.4s ease;
+  border-color: #e57373;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-8px); }
+  40%       { transform: translateX(8px); }
+  60%       { transform: translateX(-6px); }
+  80%       { transform: translateX(6px); }
+}
+.pw-btn {
+  font-family: var(--pixel);
+  font-size: 0.9rem;
+  background: var(--pink);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: 0.7rem 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px #e91e8c33;
+  white-space: nowrap;
+}
+.pw-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px #e91e8c44;
+}
+.pw-error {
+  font-family: var(--pixel);
+  font-size: 0.82rem;
+  color: #c62828;
+  margin-bottom: 0.5rem;
+}
+.pw-error.hidden { display: none; }
+.pw-chars {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+.pw-char {
+  width: 75px;
+  mix-blend-mode: multiply;
+  animation: bobble 2.3s ease-in-out infinite;
+}
+.pw-char:last-child { animation-delay: 0.4s; }
+
 /* ── CANVAS (floating particles) ── */
 #floatCanvas {
   position: fixed;
