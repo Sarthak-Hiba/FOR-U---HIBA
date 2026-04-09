@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Memories 🌸 For Hiba</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Pixelify+Sans:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Floating particles canvas -->
+  <canvas id="floatCanvas"></canvas>
+
+  <!-- ══════════════════════════════════════════
+       INTRO SCREEN
+  ══════════════════════════════════════════ -->
+  <div id="introScreen" class="screen active">
+
+    <img src="sakura.gif" class="sakura-overlay sakura-tl" alt="" />
+    <img src="sakura.gif" class="sakura-overlay sakura-br" alt="" />
+    <img src="sparkle_star.gif" class="deco-sparkle sp1" alt="" />
+    <img src="sparkle_star.gif" class="deco-sparkle sp2" alt="" />
+    <img src="sparkle_star.gif" class="deco-sparkle sp3" alt="" />
+    <img src="sparkle_star.gif" class="deco-sparkle sp4" alt="" />
+
+    <div class="intro-content">
+      <div class="cake-wrap">
+        <img src="birthday_cake.gif" alt="birthday cake" class="intro-cake" />
+        <div class="bday-tag">🎉 Happy Birthday Hiba! 🎉</div>
+      </div>
+
+      <h1 class="intro-title">For <span class="name-highlight">Hiba</span></h1>
+      <p class="intro-tagline">our little world, our forever memories ♡</p>
+
+      <div class="intro-characters">
+        <img src="cat_wave.gif"   alt="" class="char char-cat-wave" />
+        <img src="bear_heart.gif" alt="" class="char char-bear"     />
+        <img src="cat_heart.gif"  alt="" class="char char-cat-heart"/>
+      </div>
+
+      <button class="btn-enter" onclick="showMain()">
+        ✦ Open Our Scrapbook ✦
+      </button>
+      <p class="intro-hint">a birthday gift, just for you ♡</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       MAIN APP
+  ══════════════════════════════════════════ -->
+  <div id="mainApp" class="screen hidden">
+
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="header-logo">
+          <img src="cat_wave.gif"      alt="" class="header-gif" />
+          <span class="header-title">Our Memories</span>
+          <img src="sparkle_star.gif"  alt="" class="header-star" />
+        </div>
+        <nav class="header-nav">
+          <button class="nav-btn active" onclick="showView('gallery')" id="navGallery">✦ Gallery</button>
+          <button class="nav-btn"        onclick="showView('upload')"  id="navUpload">♡ Add Memory</button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Ambient sakura on main pages -->
+    <img src="sakura.gif" class="sakura-app sa-top"    alt="" />
+    <img src="sakura.gif" class="sakura-app sa-bottom" alt="" />
+
+    <!-- ── GALLERY ── -->
+    <section id="galleryView" class="view active">
+      <div class="gallery-hero">
+        <img src="sparkle_star.gif" alt="" class="hero-star left"  />
+        <div class="hero-text">
+          <h2 class="gallery-title">Our Little World 🌸</h2>
+          <p class="gallery-subtitle">every picture is a forever memory</p>
+        </div>
+        <img src="sparkle_star.gif" alt="" class="hero-star right" />
+      </div>
+
+      <div class="gallery-controls">
+        <input type="text" id="searchBox" class="search-box" placeholder="🔍  search memories..." oninput="filterMemories()" />
+      </div>
+
+      <div class="gallery-grid" id="galleryGrid"></div>
+
+      <div class="empty-state hidden" id="emptyState">
+        <img src="bear_heart.gif" alt="" class="empty-bear" />
+        <p class="empty-text">No memories yet...</p>
+        <p class="empty-sub">add your first one! ♡</p>
+        <button class="btn-enter small" onclick="showView('upload')">Add a Memory ♡</button>
+      </div>
+    </section>
+
+    <!-- ── UPLOAD ── -->
+    <section id="uploadView" class="view hidden">
+      <div class="upload-layout">
+
+        <div class="upload-deco">
+          <img src="cat_typing.gif" alt="" class="typing-gif" />
+          <img src="bear_heart.gif" alt="" class="deco-bear"  />
+          <p class="deco-quote">every photo you add<br>lives here <em>forever</em> ♡</p>
+          <img src="sparkle_star.gif" alt="" class="deco-star" />
+        </div>
+
+        <div class="upload-card">
+          <div class="upload-header">
+            <img src="birthday_cake.gif" alt="" class="card-cake" />
+            <div>
+              <h2 class="upload-title">Add a Memory ✦</h2>
+              <p class="upload-sub">save your photos to our scrapbook</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>GitHub Token <span class="req">*</span></label>
+            <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx" class="form-input" />
+            <small>Personal Access Token (repo scope). <a href="https://github.com/settings/tokens/new" target="_blank">Get one ↗</a></small>
+          </div>
+          <div class="form-group">
+            <label>Repository <span class="req">*</span></label>
+            <input type="text" id="ghRepo" placeholder="username/repo-name" class="form-input" />
+            <small>e.g. john/our-memories</small>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex:1">
+              <label>Caption ♡</label>
+              <input type="text" id="memCaption" placeholder="What's this memory?" class="form-input" />
+            </div>
+            <div class="form-group">
+              <label>Date</label>
+              <input type="date" id="memDate" class="form-input" />
+            </div>
+          </div>
+
+          <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+            <div class="drop-emoji">🖼</div>
+            <p class="drop-text">Drop your photo here<br><span>or click to browse</span></p>
+            <input type="file" id="fileInput" accept="image/*" multiple style="display:none" onchange="handleFiles(this.files)" />
+          </div>
+
+          <div class="preview-strip" id="previewStrip"></div>
+
+          <button class="btn-upload" id="uploadBtn" onclick="uploadToGitHub()">
+            <span id="uploadBtnText">Save to Our Scrapbook ♡</span>
+          </button>
+          <div class="upload-status" id="uploadStatus"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       LIGHTBOX
+  ══════════════════════════════════════════ -->
+  <div id="lightbox" class="lightbox hidden" onclick="closeLightbox()">
+    <div class="lightbox-inner" onclick="event.stopPropagation()">
+      <button class="lb-close" onclick="closeLightbox()">✕</button>
+      <img id="lbImg" src="" alt="" class="lb-img" />
+      <div class="lb-info">
+        <img src="bear_heart.gif" alt="" class="lb-bear" />
+        <div>
+          <p class="lb-caption" id="lbCaption"></p>
+          <p class="lb-date"    id="lbDate"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
