@@ -315,7 +315,27 @@ body {
 .gallery-controls {
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
   margin: 1.2rem 0 1.8rem;
+}
+.refresh-btn {
+  font-size: 1.2rem;
+  background: #fff;
+  border: 1.5px solid var(--pink-rose);
+  border-radius: 50%;
+  width: 38px; height: 38px;
+  cursor: pointer;
+  color: var(--pink);
+  transition: transform 0.3s, background 0.2s;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.refresh-btn:hover { background: var(--pink-pale); transform: rotate(180deg); }
+.loading-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 1rem;
 }
 .search-box {
   font-family: var(--body);

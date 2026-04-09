@@ -246,13 +246,74 @@ function setUploadBtnDisabled(d) {
 }
 
 // ═══════════════════════════════════════════
-// GALLERY
+// GALLERY — loads from GitHub so everyone sees all photos
 // ═══════════════════════════════════════════
 let allMemories = [];
 
-function loadMemories() {
-  allMemories = JSON.parse(localStorage.getItem(MEMORIES_KEY) || '[]');
-  renderGallery(allMemories);
+async function loadMemories() {
+  const grid  = document.getElementById('galleryGrid');
+  const empty = document.getElementById('emptyState');
+
+  // Show a cute loading state
+  grid.innerHTML = `<div class="loading-state">
+    <img src="cat_wave.gif" alt="" style="width:80px;mix-blend-mode:multiply;" />
+    <p style="font-family:'Pixelify Sans',monospace;color:#9c4473;margin-top:0.5rem;">loading memories... ♡</p>
+  </div>`;
+  empty.classList.add('hidden');
+
+  const saved = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
+  const repo  = saved.repo || '';
+  const token = saved.token || '';
+
+  if (!repo) {
+    // No repo saved yet — fall back to local
+    allMemories = JSON.parse(localStorage.getItem(MEMORIES_KEY) || '[]');
+    renderGallery(allMemories);
+    return;
+  }
+
+  try {
+    const headers = token ? { Authorization: `token ${token}` } : {};
+    const res = await fetch(`https://api.github.com/repos/${repo}/contents/memories`, { headers });
+
+    if (res.status === 404) {
+      // memories folder doesn't exist yet
+      allMemories = [];
+      renderGallery([]);
+      return;
+    }
+
+    if (!res.ok) throw new Error('Could not load from GitHub');
+
+    const files = await res.json();
+
+    // Build memory objects from GitHub file list
+    allMemories = files
+      .filter(f => /\.(jpe?g|png|gif|webp)$/i.test(f.name))
+      .map(f => {
+        // Try to parse caption & date from filename: timestamp_caption_date.ext
+        const nameNoExt = f.name.replace(/\.[^.]+$/, '');
+        const parts     = nameNoExt.split('_');
+        // first part is timestamp, rest is the original filename
+        const rawName   = parts.slice(1).join('_');
+        return {
+          id:      f.sha,
+          caption: rawName.replace(/_/g, ' ').replace(/\.[^.]+$/, '') || 'A sweet memory',
+          date:    '',
+          url:     f.download_url,
+          path:    f.path,
+        };
+      })
+      .reverse(); // newest first
+
+    renderGallery(allMemories);
+
+  } catch (err) {
+    console.error(err);
+    // Fallback to local storage
+    allMemories = JSON.parse(localStorage.getItem(MEMORIES_KEY) || '[]');
+    renderGallery(allMemories);
+  }
 }
 
 function renderGallery(memories) {
@@ -274,7 +335,7 @@ function renderGallery(memories) {
       <img src="${mem.url}" alt="${mem.caption}" class="card-photo" loading="lazy" />
       <div class="memory-card-body">
         <p class="memory-card-caption">${mem.caption || 'A sweet memory'}</p>
-        <p class="memory-card-date">${formatDate(mem.date)}</p>
+        <p class="memory-card-date">${mem.date ? formatDate(mem.date) : ''}</p>
       </div>`;
     card.onclick = () => openLightbox(mem);
     grid.appendChild(card);
