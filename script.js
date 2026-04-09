@@ -82,42 +82,6 @@ animateParticles();
 window.addEventListener('resize', () => { resizeCanvas(); });
 
 // ═══════════════════════════════════════════
-// PASSWORD
-// ═══════════════════════════════════════════
-const CORRECT_PASSWORD = 'lillu';
-const AUTH_KEY = 'hiba_memories_auth';
-
-function checkPassword() {
-  const input = document.getElementById('pwInput').value.trim().toLowerCase();
-  if (input === CORRECT_PASSWORD) {
-    // Save auth so they don't have to re-enter on same device
-    sessionStorage.setItem(AUTH_KEY, 'true');
-    const screen = document.getElementById('passwordScreen');
-    screen.style.transition = 'opacity 0.5s ease';
-    screen.style.opacity = '0';
-    setTimeout(() => {
-      screen.classList.add('hidden');
-      document.getElementById('introScreen').classList.remove('hidden');
-      document.getElementById('introScreen').classList.add('active');
-    }, 500);
-  } else {
-    const input_el = document.getElementById('pwInput');
-    const error    = document.getElementById('pwError');
-    input_el.classList.add('shake');
-    error.classList.remove('hidden');
-    input_el.value = '';
-    setTimeout(() => input_el.classList.remove('shake'), 400);
-  }
-}
-
-// Auto-skip password if already authenticated this session
-if (sessionStorage.getItem(AUTH_KEY) === 'true') {
-  document.getElementById('passwordScreen').classList.add('hidden');
-  document.getElementById('introScreen').classList.remove('hidden');
-  document.getElementById('introScreen').classList.add('active');
-}
-
-// ═══════════════════════════════════════════
 // INTRO → MAIN
 // ═══════════════════════════════════════════
 function showMain() {
