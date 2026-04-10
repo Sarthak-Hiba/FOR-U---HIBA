@@ -11,16 +11,12 @@
 </head>
 <body>
 
-  <!-- Floating particles canvas -->
   <canvas id="floatCanvas"></canvas>
 
-  <!-- ══════════════════════════════════════════
-       INTRO SCREEN
-  ══════════════════════════════════════════ -->
+  <!-- ══════════════════ INTRO ══════════════════ -->
   <div id="introScreen" class="screen active">
-
-    <img src="sakura.gif" class="sakura-overlay sakura-tl" alt="" />
-    <img src="sakura.gif" class="sakura-overlay sakura-br" alt="" />
+    <img src="sakura.gif"       class="sakura-overlay sakura-tl" alt="" />
+    <img src="sakura.gif"       class="sakura-overlay sakura-br" alt="" />
     <img src="sparkle_star.gif" class="deco-sparkle sp1" alt="" />
     <img src="sparkle_star.gif" class="deco-sparkle sp2" alt="" />
     <img src="sparkle_star.gif" class="deco-sparkle sp3" alt="" />
@@ -31,34 +27,27 @@
         <img src="birthday_cake.gif" alt="birthday cake" class="intro-cake" />
         <div class="bday-tag">🎉 Happy Birthday Hiba! 🎉</div>
       </div>
-
       <h1 class="intro-title">For <span class="name-highlight">Hiba</span></h1>
       <p class="intro-tagline">our little world, our forever memories ♡</p>
-
       <div class="intro-characters">
-        <img src="cat_wave.gif"   alt="" class="char char-cat-wave" />
-        <img src="bear_heart.gif" alt="" class="char char-bear"     />
-        <img src="cat_heart.gif"  alt="" class="char char-cat-heart"/>
+        <img src="cat_wave.gif"   alt="" class="char char-cat-wave"  />
+        <img src="bear_heart.gif" alt="" class="char char-bear"      />
+        <img src="cat_heart.gif"  alt="" class="char char-cat-heart" />
       </div>
-
-      <button class="btn-enter" onclick="showMain()">
-        ✦ Open Our Scrapbook ✦
-      </button>
+      <button class="btn-enter" onclick="showMain()">✦ Open Our Scrapbook ✦</button>
       <p class="intro-hint">a birthday gift, just for you ♡</p>
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════════
-       MAIN APP
-  ══════════════════════════════════════════ -->
+  <!-- ══════════════════ MAIN APP ══════════════════ -->
   <div id="mainApp" class="screen hidden">
 
     <header class="site-header">
       <div class="header-inner">
         <div class="header-logo">
-          <img src="cat_wave.gif"      alt="" class="header-gif" />
+          <img src="cat_wave.gif"     alt="" class="header-gif"  />
           <span class="header-title">Our Memories</span>
-          <img src="sparkle_star.gif"  alt="" class="header-star" />
+          <img src="sparkle_star.gif" alt="" class="header-star" />
         </div>
         <nav class="header-nav">
           <button class="nav-btn active" onclick="showView('gallery')" id="navGallery">✦ Gallery</button>
@@ -67,12 +56,12 @@
       </div>
     </header>
 
-    <!-- Ambient sakura on main pages -->
     <img src="sakura.gif" class="sakura-app sa-top"    alt="" />
     <img src="sakura.gif" class="sakura-app sa-bottom" alt="" />
 
-    <!-- ── GALLERY ── -->
+    <!-- ── GALLERY VIEW ── -->
     <section id="galleryView" class="view active">
+
       <div class="gallery-hero">
         <img src="sparkle_star.gif" alt="" class="hero-star left"  />
         <div class="hero-text">
@@ -82,30 +71,56 @@
         <img src="sparkle_star.gif" alt="" class="hero-star right" />
       </div>
 
-      <div class="gallery-controls">
-        <input type="text" id="searchBox" class="search-box" placeholder="🔍  search memories..." oninput="filterMemories()" />
-        <button class="refresh-btn" onclick="loadMemories()" title="Refresh gallery">↻</button>
+      <!-- PASSWORD LOCK BOX — shown until unlocked -->
+      <div id="galleryLock" class="gallery-lock">
+        <div class="lock-card">
+          <img src="bear_heart.gif" alt="" class="lock-bear" />
+          <h3 class="lock-title">Our Memories are Private ♡</h3>
+          <p class="lock-sub">enter the secret word to see our photos</p>
+          <div class="lock-input-row">
+            <input
+              type="password"
+              id="galleryPwInput"
+              class="lock-input"
+              placeholder="secret word..."
+              onkeydown="if(event.key==='Enter') unlockGallery()"
+            />
+            <button class="lock-btn" onclick="unlockGallery()">✦</button>
+          </div>
+          <p class="lock-error hidden" id="galleryPwError">wrong password 🐾 try again!</p>
+          <div class="lock-cats">
+            <img src="cat_wave.gif"  alt="" class="lock-cat" />
+            <img src="cat_heart.gif" alt="" class="lock-cat" />
+          </div>
+        </div>
       </div>
 
-      <div class="gallery-grid" id="galleryGrid"></div>
-
-      <div class="empty-state hidden" id="emptyState">
-        <img src="bear_heart.gif" alt="" class="empty-bear" />
-        <p class="empty-text">No memories yet...</p>
-        <p class="empty-sub">add your first one! ♡</p>
-        <button class="btn-enter small" onclick="showView('upload')">Add a Memory ♡</button>
+      <!-- GALLERY CONTENT — hidden until unlocked -->
+      <div id="galleryContent" class="hidden">
+        <div class="gallery-controls">
+          <input type="text" id="searchBox" class="search-box" placeholder="🔍  search memories..." oninput="filterMemories()" />
+          <button class="refresh-btn" onclick="loadMemories()" title="Refresh">↻</button>
+        </div>
+        <div class="gallery-grid" id="galleryGrid"></div>
+        <div class="empty-state hidden" id="emptyState">
+          <img src="bear_heart.gif" alt="" class="empty-bear" />
+          <p class="empty-text">No memories yet...</p>
+          <p class="empty-sub">add your first one! ♡</p>
+          <button class="btn-enter small" onclick="showView('upload')">Add a Memory ♡</button>
+        </div>
       </div>
+
     </section>
 
-    <!-- ── UPLOAD ── -->
+    <!-- ── UPLOAD VIEW ── -->
     <section id="uploadView" class="view hidden">
       <div class="upload-layout">
 
         <div class="upload-deco">
-          <img src="cat_typing.gif" alt="" class="typing-gif" />
-          <img src="bear_heart.gif" alt="" class="deco-bear"  />
+          <img src="cat_typing.gif"   alt="" class="typing-gif" />
+          <img src="bear_heart.gif"   alt="" class="deco-bear"  />
           <p class="deco-quote">every photo you add<br>lives here <em>forever</em> ♡</p>
-          <img src="sparkle_star.gif" alt="" class="deco-star" />
+          <img src="sparkle_star.gif" alt="" class="deco-star"  />
         </div>
 
         <div class="upload-card">
@@ -125,7 +140,7 @@
           <div class="form-group">
             <label>Repository <span class="req">*</span></label>
             <input type="text" id="ghRepo" placeholder="username/repo-name" class="form-input" />
-            <small>e.g. john/our-memories</small>
+            <small>e.g. sarthak-hiba/FOR-U---HIBA</small>
           </div>
           <div class="form-row">
             <div class="form-group" style="flex:1">
@@ -151,13 +166,13 @@
           </button>
           <div class="upload-status" id="uploadStatus"></div>
         </div>
+
       </div>
     </section>
+
   </div>
 
-  <!-- ══════════════════════════════════════════
-       LIGHTBOX
-  ══════════════════════════════════════════ -->
+  <!-- ══════════════════ LIGHTBOX ══════════════════ -->
   <div id="lightbox" class="lightbox hidden" onclick="closeLightbox()">
     <div class="lightbox-inner" onclick="event.stopPropagation()">
       <button class="lb-close" onclick="closeLightbox()">✕</button>
